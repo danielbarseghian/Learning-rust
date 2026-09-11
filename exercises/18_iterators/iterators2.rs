@@ -41,7 +41,25 @@ fn capitalize_words_vector(words: &[&str]) -> Vec<String> {
 // slices. Return a single string.
 // ["hello", " ", "world"] -> "Hello World"
 fn capitalize_words_string(words: &[&str]) -> String {
-    let s: Vec<String> = words.split(' ').collect();
+    let mut result = String::new();
+
+    for word in words.iter() {
+        let mut chars = word.chars();
+
+        let ret = match chars.next() {
+            None => String::new(),
+            Some(first) => {
+                let mut s = first.to_ascii_uppercase().to_string();
+                s.extend(chars);
+
+                s
+            }
+        };
+
+        result.push_str(&ret);
+    }
+
+    result
 }
 
 fn main() {
