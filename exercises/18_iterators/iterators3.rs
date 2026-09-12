@@ -11,9 +11,9 @@ enum DivisionError {
 // TODO: Calculate `a` divided by `b` if `a` is evenly divisible by `b`.
 // Otherwise, return a suitable error.
 fn divide(a: i64, b: i64) -> Result<i64, DivisionError> {
-    if a == 0 || b == 0 {
+    if b == 0 {
         return Err(DivisionError::DivideByZero);
-    } else if a == i64::MIN || b == -1 {
+    } else if a == i64::MIN && b == -1 {
         return Err(DivisionError::IntegerOverflow);
     } else if a % b != 0 {
         return Err(DivisionError::NotDivisible);
@@ -38,15 +38,14 @@ fn result_with_list() -> Result<Vec<i64>, DivisionError> {
 // Desired output: `[Ok(1), Ok(11), Ok(1426), Ok(3)]`
 fn list_of_results() -> Vec<Result<i64, DivisionError>> {
     let numbers = [27, 297, 38502, 81];
-    let division_results: Vec<i64, DivisionError> = numbers
+    let division_results = numbers
         .into_iter()
-        .map(|n| divide(n, 27))
-        .collect::<Result<Vec<i64>, DivisionError>>();
+        .map(|n| divide(n, 27));
 
     let mut result: Vec<Result<i64, DivisionError>> = Vec::new();
 
     for n in division_results {
-        result.push(Ok(n));
+        result.push(Ok(n.unwrap()));
     }
 
     result
