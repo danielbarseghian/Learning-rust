@@ -6,16 +6,17 @@ fn most_common(words: Vec<&str>) -> Option<&K> {
     let mut map: HashMap<&str, usize> = HashMap::new();
     let iter = words.iter();
 
-    map.values()
+    iter.for_each(|(key, value)
         .map(|&key| {
-            map.entry(key).or_insert(key)
+            *map.entry(key).or_insert(0) += 1
         }
-    );
+    ));
 
-    map
+    map.into_iter().for_each(|(word, size)| {
         .iter()
         .max_by(|a, b| a.1.cmp(&b.1))
         .map(|(k, _v)| k)
+    });
     
 }
 
